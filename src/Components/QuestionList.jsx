@@ -32,6 +32,17 @@ export class QuestionList extends Component {
         .catch((err) => alert(err));
     }
   }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps !== this.props) {
+      //fetch new data as url has changed
+      let query = new URLSearchParams(this.props.location.search);
+      this.setState({
+        tag: query.get("tag"),
+        questions:
+          JSON.parse(localStorage.getItem(`q-${query.get("tag")}`)) || [],
+      });
+    }
+  }
   render() {
     return (
       <div>
