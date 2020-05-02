@@ -17,7 +17,7 @@ export class QuestionList extends Component {
     //   fetch once for testing
     if (this.state.questions.length === 0) {
       fetch(
-        `https://api.stackexchange.com/2.2/questions?page=1&pagesize=10&order=desc&sort=creation&tagged=${this.state.tag}&site=stackoverflow&filter=!9Z(-wwYGT`
+        `https://api.stackexchange.com/2.2/questions?page=1&pagesize=10&order=desc&sort=creation&tagged=${this.state.tag}&site=stackoverflow&filter=!9Z(-wwK0y`
       )
         .then((res) => res.json())
         .then((res) => {
@@ -33,7 +33,16 @@ export class QuestionList extends Component {
     }
   }
   render() {
-    return <div></div>;
+    return (
+      <div>
+        <h1 className="text-center">
+          Top 10 newset questions of {this.state.tag}
+        </h1>
+        {this.state.questions.map((ele) => (
+          <QuestionCard key={ele.question_id} data={ele} {...this.props} />
+        ))}
+      </div>
+    );
   }
 }
 
