@@ -13,28 +13,30 @@ export class QuestionList extends Component {
         JSON.parse(localStorage.getItem(`q-${query.get("tag")}`)) || [],
     };
   }
+  fetchData = () => {
+    fetch(
+      `https://api.stackexchange.com/2.2/questions?page=1&pagesize=10&order=desc&sort=creation&tagged=${this.state.tag}&site=stackoverflow&filter=!9Z(-wwK0y`
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        localStorage.setItem(`q-${this.state.tag}`, JSON.stringify(res.items));
+        this.setState({
+          questions: res.items,
+        });
+      })
+      .catch((err) => alert(err));
+  };
   componentDidMount() {
     //   fetch once for testing
+    console.log("moounting qlist:", this.state.tag);
     if (this.state.questions.length === 0) {
-      fetch(
-        `https://api.stackexchange.com/2.2/questions?page=1&pagesize=10&order=desc&sort=creation&tagged=${this.state.tag}&site=stackoverflow&filter=!9Z(-wwK0y`
-      )
-        .then((res) => res.json())
-        .then((res) => {
-          localStorage.setItem(
-            `q-${this.state.tag}`,
-            JSON.stringify(res.items)
-          );
-          this.setState({
-            questions: res.items,
-          });
-        })
-        .catch((err) => alert(err));
+      this.fetchData();
     }
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevProps !== this.props) {
       //fetch new data as url has changed
+      this.fetchData();
       let query = new URLSearchParams(this.props.location.search);
       this.setState({
         tag: query.get("tag"),

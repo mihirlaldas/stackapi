@@ -16,6 +16,7 @@ export class QuestionCard extends Component {
   //   }
 
   render() {
+    let date = new Date(Number(this.state.data.creation_date) * 1000);
     return (
       <div>
         <div className="container my-4 shadow">
@@ -31,7 +32,7 @@ export class QuestionCard extends Component {
             </div>
             <div className="col-10">
               {/* question, tags,owner details */}
-              <Link to={`/question/${this.state.data.question_id}/answer`}>
+              <Link to={`/question/${date}/answer`}>
                 <div className="text-truncate">{this.state.data.title}</div>
               </Link>
 
@@ -49,7 +50,7 @@ export class QuestionCard extends Component {
                   ))}
                 </div>
                 <small className="col-4 ">
-                  <div>asked on {this.state.data.creation_date.toString()}</div>
+                  <div>asked on {date.toDateString()}</div>
                   <div>
                     <img
                       src={this.state.data.owner.profile_image}
