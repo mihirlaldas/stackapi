@@ -12,10 +12,11 @@ export class QuestionList extends Component {
       questions:
         JSON.parse(localStorage.getItem(`q-${query.get("tag")}`)) || [],
     };
+    this.fetchData(query.get("tag"));
   }
-  fetchData = () => {
+  fetchData = (tag) => {
     fetch(
-      `https://api.stackexchange.com/2.2/questions?page=1&pagesize=10&order=desc&sort=votes&tagged=${this.state.tag}&site=stackoverflow&filter=!b1MMEAHEe79zMq`
+      `https://api.stackexchange.com/2.2/questions?page=1&pagesize=10&order=desc&sort=votes&tagged=${tag}&site=stackoverflow&filter=!b1MMEAHEe79zMq`
     )
       .then((res) => res.json())
       .then((res) => {
@@ -28,16 +29,18 @@ export class QuestionList extends Component {
   };
   componentDidMount() {
     //   fetch once for testing
-    console.log("moounting qlist:", this.state.tag);
+    let query = new URLSearchParams(this.props.location.search);
+
     if (this.state.questions.length === 0) {
-      this.fetchData();
+      this.fetchData(query.get("tag"));
     }
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevProps !== this.props) {
       //fetch new data as url has changed
-      this.fetchData();
       let query = new URLSearchParams(this.props.location.search);
+      this.fetchData(query.get("tag"));
+
       this.setState({
         tag: query.get("tag"),
         questions:

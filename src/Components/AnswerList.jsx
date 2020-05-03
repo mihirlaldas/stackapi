@@ -14,7 +14,7 @@ export class AnswerList extends Component {
   }
   componentDidMount() {
     // fetch question body
-    if (this.state.question.length == 0) {
+    if (this.state.question.length === 0) {
       fetch(
         `https://api.stackexchange.com/2.2/questions/${this.state.questionId}?order=desc&sort=activity&site=stackoverflow&filter=!-*jbN*LhAuu9`
       )
