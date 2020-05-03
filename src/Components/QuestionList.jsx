@@ -15,7 +15,7 @@ export class QuestionList extends Component {
   }
   fetchData = () => {
     fetch(
-      `https://api.stackexchange.com/2.2/questions?page=1&pagesize=10&order=desc&sort=creation&tagged=${this.state.tag}&site=stackoverflow&filter=!9Z(-wwK0y`
+      `https://api.stackexchange.com/2.2/questions?page=1&pagesize=10&order=desc&sort=votes&tagged=${this.state.tag}&site=stackoverflow&filter=!b1MMEAHEe79zMq`
     )
       .then((res) => res.json())
       .then((res) => {
