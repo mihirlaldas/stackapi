@@ -60,7 +60,9 @@ export class Navbar extends Component {
     if (this.state.questionId.length < 7) {
       alert("question id is 7 digit number, please enter correct question id.");
     } else {
-      this.props.history.push(`/question/${this.state.questionId}/answer`);
+      this.props.history.push(
+        `/question/${this.state.questionId}/answer?id=${this.state.questionId}`
+      );
     }
   };
   render() {

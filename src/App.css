@@ -2,7 +2,22 @@
   height: 40vmin;
   pointer-events: none;
 }
-
+.home {
+  background-image: url("https://wallpaperaccess.com/full/869923.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #282c34;
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 90vh;
+}
+.home * {
+  list-style: none;
+  opacity: 0.6;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

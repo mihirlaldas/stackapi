@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-
+import "../App.css";
 export class Home extends Component {
   render() {
     return (
-      <div className="text-center">
-        <h1>Home Page</h1>
+      <div className="home">
+        <h1>Trends in Stack overflow</h1>
         <br />
         <ul>
           <li>
