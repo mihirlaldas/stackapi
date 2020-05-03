@@ -12,39 +12,88 @@ export class AnswerList extends Component {
         JSON.parse(localStorage.getItem(`answers-${query.get("id")}`)) || [],
     };
   }
-  componentDidMount() {
-    // fetch question body
-    if (this.state.question.length === 0) {
-      fetch(
-        `https://api.stackexchange.com/2.2/questions/${this.state.questionId}?order=desc&sort=activity&site=stackoverflow&filter=!-*jbN*LhAuu9`
-      )
-        .then((res) => res.json())
-        .then((res) => {
+  // fetch questionn by id
+  fetchQuestion = (id) => {
+    fetch(
+      `https://api.stackexchange.com/2.2/questions/${id}?order=desc&sort=activity&site=stackoverflow&filter=!-*jbN*LhAuu9`
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.items) {
           this.setState({
             question: res.items,
           });
-          localStorage.setItem(
-            `question-${this.state.questionId}`,
-            JSON.stringify(res.items)
-          );
-        })
-        .catch((err) => alert(err));
-    }
-    if (this.state.answers.length === 0) {
-      fetch(
-        `https://api.stackexchange.com/2.2/questions/${this.state.questionId}/answers?order=desc&sort=votes&site=stackoverflow&filter=!b1MMEAHHviRb4*`
-      )
-        .then((res) => res.json())
-        .then((res) => {
+          localStorage.setItem(`question-${id}`, JSON.stringify(res.items));
+        } else {
+          alert("server error !! Please enter correct question id");
+        }
+      })
+      .catch((err) => alert(err));
+  };
+  // fetch answers by question id
+  fetchAnswers = (id) => {
+    fetch(
+      `https://api.stackexchange.com/2.2/questions/${id}/answers?order=desc&sort=votes&site=stackoverflow&filter=!b1MMEAHHviRb4*`
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.items) {
           this.setState({
             answers: res.items,
           });
-          localStorage.setItem(
-            `answers-${this.state.questionId}`,
-            JSON.stringify(res.items)
+          localStorage.setItem(`answers-${id}`, JSON.stringify(res.items));
+        } else {
+          alert(
+            "server err ! answer not fetched. please enter correct question id"
           );
-        })
-        .catch((err) => alert(err));
+        }
+      })
+      .catch((err) => alert(err));
+  };
+  componentDidMount() {
+    // fetch question body
+    let query = new URLSearchParams(this.props.location.search);
+    if (this.state.question.length === 0) {
+      this.fetchQuestion(query.get("id"));
+    }
+    if (this.state.answers.length === 0) {
+      this.fetchAnswers(query.get("id"));
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps !== this.props) {
+      //fetch new data as url has changed
+      let query = new URLSearchParams(this.props.location.search);
+      this.setState({
+        tag: query.get("tag"),
+        // question:
+        //   JSON.parse(localStorage.getItem(`q-${query.get("tag")}`)) || [],
+        // answers:
+        //   JSON.parse(localStorage.getItem(`answers-${query.get("tag")}`)) || [],
+      });
+
+      // fetch new question
+      if (JSON.parse(localStorage.getItem(`q-${query.get("tag")}`))) {
+        this.setState({
+          question:
+            JSON.parse(localStorage.getItem(`q-${query.get("tag")}`)) || [],
+        });
+      } else {
+        this.fetchQuestion(query.get("id"));
+      }
+
+      // fetch new answers
+
+      if (JSON.parse(localStorage.getItem(`answers-${query.get("tag")}`))) {
+        this.setState({
+          answers:
+            JSON.parse(localStorage.getItem(`answers-${query.get("tag")}`)) ||
+            [],
+        });
+      } else {
+        this.fetchAnswers(query.get("id"));
+      }
     }
   }
   render() {
@@ -53,7 +102,11 @@ export class AnswerList extends Component {
       "question length:",
       this.state.question.length
     );
-    return (
+    return this.state.question.length === 0 ? (
+      <div className="alert alert-danger">
+        <strong>Please enter correct question id</strong>
+      </div>
+    ) : (
       <div>
         {this.state.question.map((ele) => (
           <Card

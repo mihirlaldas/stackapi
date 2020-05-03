@@ -39,13 +39,18 @@ export class QuestionList extends Component {
     if (prevProps !== this.props) {
       //fetch new data as url has changed
       let query = new URLSearchParams(this.props.location.search);
-      this.fetchData(query.get("tag"));
-
-      this.setState({
-        tag: query.get("tag"),
-        questions:
-          JSON.parse(localStorage.getItem(`q-${query.get("tag")}`)) || [],
-      });
+      if (JSON.parse(localStorage.getItem(`q-${query.get("tag")}`))) {
+        this.setState({
+          tag: query.get("tag"),
+          questions:
+            JSON.parse(localStorage.getItem(`q-${query.get("tag")}`)) || [],
+        });
+      } else {
+        this.setState({
+          tag: query.get("tag"),
+        });
+        this.fetchData(query.get("tag"));
+      }
     }
   }
   render() {
