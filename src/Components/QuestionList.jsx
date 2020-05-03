@@ -1,4 +1,4 @@
-import QuestionCard from "./QuestionCard";
+import Card from "./Card";
 import React, { Component } from "react";
 
 export class QuestionList extends Component {
@@ -48,11 +48,11 @@ export class QuestionList extends Component {
   render() {
     return (
       <div>
-        <h1 className="text-center">
-          Top 10 newset questions of {this.state.tag}
-        </h1>
+        <h3 className="text-center">
+          Voted top 10 questions of {this.state.tag}
+        </h3>
         {this.state.questions.map((ele) => (
-          <QuestionCard key={ele.question_id} data={ele} {...this.props} />
+          <Card key={ele.question_id} data={ele} {...this.props} />
         ))}
       </div>
     );
