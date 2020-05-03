@@ -67,7 +67,7 @@ export class Navbar extends Component {
         <Link to="/">
           <h3 className="font-weight-light bg-dark text-white p-1 rounded shadow-lg">
             stack
-            <span className="font-weight-bold text-warning">apps</span>
+            <span className="font-weight-bold text-warning">app</span>
           </h3>
         </Link>
         <form
