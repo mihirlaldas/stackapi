@@ -14,7 +14,11 @@ export default function QuestionCard(props) {
               <small>Votes</small>
             </div>
             <div className="bg-info text-white m-1 rounded">
-              <p>{props.data.answer_count}</p>
+              {props.data.is_accepted ? (
+                <p>&#x2714; Accepted</p>
+              ) : (
+                <p>{props.data.answer_count}</p>
+              )}
               <small>answers</small>
             </div>
           </div>
@@ -59,17 +63,19 @@ export default function QuestionCard(props) {
                     <p className="text-primary">
                       &#11044; {props.data.owner.reputation}
                     </p>
-                    <div className="d-flex justify-content-between mt-0 flex-wrap">
-                      <small className="text-warning badge badge-info">
-                        &#11044; {props.data.owner.badge_counts.gold}
-                      </small>
-                      <small className="text-success">
-                        &#11044; {props.data.owner.badge_counts.silver}
-                      </small>
-                      <small className="text-info">
-                        &#11044; {props.data.owner.badge_counts.bronze}
-                      </small>
-                    </div>
+                    {props.data.owner.badge_counts && (
+                      <div className="d-flex justify-content-between mt-0 flex-wrap">
+                        <small className="text-warning badge badge-info">
+                          &#11044; {props.data.owner.badge_counts.gold}
+                        </small>
+                        <small className="text-success">
+                          &#11044; {props.data.owner.badge_counts.silver}
+                        </small>
+                        <small className="text-info">
+                          &#11044; {props.data.owner.badge_counts.bronze}
+                        </small>
+                      </div>
+                    )}
                   </div>
                 </div>
               </small>
