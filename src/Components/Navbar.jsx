@@ -77,7 +77,7 @@ export class Navbar extends Component {
           <input
             className="form-control mr-sm-2"
             type="search"
-            placeholder="Search by tag"
+            placeholder="tag"
             aria-label="Search"
             list="inputTag"
             value={this.state.inputTag}
